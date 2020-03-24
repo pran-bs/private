@@ -4,34 +4,32 @@ import java.io.IOException;
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.OutputType;
-import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-@BeforeClass
+
 public class FBLogin {
 
 public static void main(String[] args) throws InterruptedException, IOException {
 
-//Creating reference of Webdriver Interface
+//Webdriver Interface
 WebDriver driver;
 
-//Declare Facebook Credentials
+//Fb Credentials
 String user="Enter your Username";
 String pass="Enter your Password";
 
-//Creating an instance of chrome level class to disable browser level notifications
-ChromeOptions coptions = new ChromeOptions();
-coptions.addArguments("--disable-notifications");
+@Before Method
+public void openApp()
+{
 
-// Telling Selenium to find Chrome Driver
+// to find Chrome Driver
 System.setProperty("webdriver.chrome.driver", "C:\\selenium\\chromedriver.exe");
 
 // Initialize browser
-driver = new ChromeDriver(coptions);
+driver = new ChromeDriver();
 
 // Launch Facebook
 driver.get("http://facebook.com/");
@@ -44,6 +42,10 @@ driver.manage().window().maximize();
 
 //Wait
 Thread.sleep(2000);
+}
+@Test
+public void test()
+{
 
 //Enter Username
 WebElement userTextField = driver.findElement(By.id("email"));
@@ -65,7 +67,7 @@ driver.findElement(By.id("loginbutton")).click();
 //Wait
 Thread.sleep(3000);
 
-//Find the Status Text Area and enter the status message as Hello World
+//Find the Status Text Area and enter the status message 
 WebElement TextArea = driver.findElement(By.name("xhpc_message"));
 Thread.sleep(2000);
 TextArea.click();
@@ -82,14 +84,6 @@ PostBtn.click();
 //Wait
 Thread.sleep(4000);
 
-// Take Screenshot for Evidence
-File srce = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
-
-// Save the screenshot in the given path by the name FbStatus.png
-FileUtils.copyFile(srce, new File("C:\\selenium\\screenshot\\FbStatus.png"));
-
-//Wait
-Thread.sleep(2000);
 
 //Click on Account Settings
 WebElement AccSettings = driver.findElement(By.id("userNavigationLabel"));
@@ -102,8 +96,12 @@ logout.click();
 
 //Wait
 Thread.sleep(2000);
+}
 
 // Close the browser
+@After Method
+public void closeApp()
+{
 driver.quit();
 
 }
